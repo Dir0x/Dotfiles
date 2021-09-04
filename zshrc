@@ -2,8 +2,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path to the oh-my-zsh installation.
-export ZSH="~/.oh-my-zsh"
+# Path to the oh-my-zsh installation. Use your own user.
+export ZSH="/home/daniel/.oh-my-zsh"
 
 # Oh my zsh theme, plugins and load
 ZSH_THEME="powerlevel10k/powerlevel10k"
