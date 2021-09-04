@@ -28,9 +28,6 @@ alias cat='/usr/bin/bat'
 alias catn='/usr/bin/cat'
 alias catnl='/usr/bin/bat --paging=never'
 
-# Enumeration
-alias scan='bash /home/daniel/Scripts/scan.sh'
-
 # Utils
 alias www='python3 -m http.server'
 alias hosts='sudo nano /etc/hosts'
@@ -82,6 +79,12 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # Keybindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+
+# Port scan with furious and nmap
+scan(){
+  puertos=$(/home/daniel/go/bin/furious -s connect -p 1-65535 $1 | grep "/tcp" | cut -d "/" -f1 | tr -d "\t" | sed -e 'H;${x;s/\n/,/g;s/^,//;p;};d')
+  nmap -sC -A -sV -Pn -T4 -n -p$puertos $1 | tail -n+5 | head -n-3
+}
 
 # Delete initial warning
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
