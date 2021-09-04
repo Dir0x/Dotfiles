@@ -37,6 +37,15 @@ alias ffufdefault='ffuf -w /home/daniel/Diccionarios/directory_wordlist.txt -u '
 alias htb='sudo openvpn ~/HackTheBox/D1r0x.ovpn'
 alias thm='sudo openvpn ~/TryHackMe/Dirox.ovpn'
 
+# Port scan with furious and nmap
+scan(){
+  puertos=$(/home/daniel/go/bin/furious -s connect -p 1-65535 $1 | grep "/tcp" | cut -d "/" -f1 | tr -d "\t" | sed -e 'H;${x;s/\n/,/g;s/^,//;p;};d')
+  nmap -sC -A -sV -Pn -T4 -n -p$puertos $1 | tail -n+5 | head -n-3
+}
+
+# Show tun0 interface ip
+alias vpn_ip="echo $(ifconfig tun0 | grep inet | head -1 | awk '{print $2}')"
+
 # Set 'man' colors
 function man() {
     env \
@@ -79,12 +88,6 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # Keybindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
-
-# Port scan with furious and nmap
-scan(){
-  puertos=$(/home/daniel/go/bin/furious -s connect -p 1-65535 $1 | grep "/tcp" | cut -d "/" -f1 | tr -d "\t" | sed -e 'H;${x;s/\n/,/g;s/^,//;p;};d')
-  nmap -sC -A -sV -Pn -T4 -n -p$puertos $1 | tail -n+5 | head -n-3
-}
 
 # Delete initial warning
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
