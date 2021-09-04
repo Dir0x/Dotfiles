@@ -44,7 +44,14 @@ scan(){
 }
 
 # Show tun0 interface ip
-alias vpn_ip="echo $(ifconfig tun0 | grep inet | head -1 | awk '{print $2}')"
+vpn_ip(){
+  interface='tun0'
+  if [[ -d /sys/class/net/tun0 ]]; then
+    echo $(ifconfig $interface | grep inet | head -1 | awk '{print $2}')
+  else
+    echo 'Unknown interface'
+  fi
+}
 
 # Set 'man' colors
 function man() {
